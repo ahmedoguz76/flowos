@@ -1,11 +1,14 @@
+import { flowConfig } from "@/config/flow";
+import type {
+  ConcernId,
+  DurationId,
+} from "@/config/flow";
+
+import { buildJourneySummary } from "@/lib/summary";
+
 import { PlayerScreen } from "@/components/player/layout/PlayerScreen";
 import { Button } from "@/components/ui/Button";
 import { Card } from "@/components/ui/Card";
-import {
-  flowConfig,
-  type ConcernId,
-  type DurationId,
-} from "@/config/flow";
 
 type RecommendationScreenProps = {
   concern: ConcernId;
@@ -13,25 +16,16 @@ type RecommendationScreenProps = {
   onContinue: () => void;
 };
 
-const durationSummary: Record<DurationId, string> = {
-  "less-than-one-month": "Bu durumu yakın zamanda fark ettiniz.",
-  "one-to-six-months": "Bu durum bir süredir devam ediyor.",
-  "more-than-six-months": "Bu durum uzun zamandır devam ediyor.",
-  "not-sure": "Bu durumun ne zaman başladığından emin değilsiniz.",
-};
-
-const concernSummary: Record<ConcernId, string> = {
-  appearance: "Sizi en çok düşündüren konu görünüm.",
-  chewing: "Sizi en çok düşündüren konu çiğneme konforu.",
-  speech: "Sizi en çok düşündüren konu konuşma konforu.",
-  multiple: "Birden fazla konu günlük yaşamınızı etkiliyor.",
-};
-
 export function RecommendationScreen({
   concern,
   duration,
   onContinue,
 }: RecommendationScreenProps) {
+  const summary = buildJourneySummary({
+    concern,
+    duration,
+  });
+
   const recommendation =
     flowConfig.recommendations[concern] ??
     flowConfig.recommendations.multiple;
@@ -39,9 +33,9 @@ export function RecommendationScreen({
   return (
     <PlayerScreen
       screenId="recommendation"
-      eyebrow="Size özel özet"
-      title="Yanıtlarınıza göre sizin için kısa bir özet hazırladık."
-      description="Bu özet yalnızca verdiğiniz cevaplara göre hazırlanmıştır ve tıbbi değerlendirme yerine geçmez."
+      eyebrow={summary.eyebrow}
+      title={summary.title}
+      description={summary.personalSummary}
     >
       <div className="grid gap-[var(--space-2)]">
         <Card
@@ -53,7 +47,7 @@ export function RecommendationScreen({
           </p>
 
           <p className="mt-[var(--space-1)] text-lg font-semibold tracking-[-0.025em] text-[var(--color-text-primary)]">
-            {concernSummary[concern]}
+            {summary.concernLabel}
           </p>
         </Card>
 
@@ -65,8 +59,21 @@ export function RecommendationScreen({
             Ne zamandır devam ediyor?
           </p>
 
+          <p className="mt-[var(--space-1)] text-lg font-semibold tracking-[-0.025em] text-[var(--color-text-primary)]">
+            {summary.durationLabel}
+          </p>
+        </Card>
+
+        <Card
+          variant="glass"
+          className="p-[var(--space-3)]"
+        >
+          <p className="text-xs font-semibold uppercase tracking-[0.12em] text-[var(--color-accent)]">
+            Sonraki adım
+          </p>
+
           <p className="mt-[var(--space-1)] leading-7 text-[var(--color-text-secondary)]">
-            {durationSummary[duration]}
+            {summary.nextStep}
           </p>
         </Card>
       </div>
@@ -105,7 +112,8 @@ export function RecommendationScreen({
           fullWidth
           onClick={onContinue}
         >
-          Uzmanla iletişim seçeneklerini gör →
+          Uzmanla iletişim seçeneklerini gör
+          <span aria-hidden="true">→</span>
         </Button>
       </div>
     </PlayerScreen>
