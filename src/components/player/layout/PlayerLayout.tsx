@@ -20,53 +20,19 @@ export function PlayerLayout({
         aria-hidden="true"
         className="
           pointer-events-none
-          fixed
-          -top-32
-          left-1/2
-          h-[360px]
-          w-[360px]
-          -translate-x-1/2
-          rounded-full
-          bg-[var(--color-glow-primary)]
-          opacity-50
-          blur-[100px]
-          sm:h-[520px]
-          sm:w-[520px]
-          sm:blur-[120px]
-        "
-      />
-
-      <div
-        aria-hidden="true"
-        className="
-          pointer-events-none
-          fixed
-          -bottom-40
-          -right-32
-          h-[320px]
-          w-[320px]
-          rounded-full
-          bg-[var(--color-glow-secondary)]
-          opacity-35
-          blur-[110px]
-          sm:h-[420px]
-          sm:w-[420px]
-          sm:blur-[140px]
+          absolute inset-0
+          bg-[radial-gradient(circle_at_50%_0%,rgba(216,240,229,0.65),transparent_38%),radial-gradient(circle_at_100%_100%,rgba(221,233,255,0.45),transparent_34%)]
         "
       />
 
       <div
         className="
-          relative
-          z-10
-          mx-auto
-          flex
+          relative z-10
+          mx-auto flex
           min-h-[100svh]
-          w-full
-          max-w-2xl
+          w-full max-w-2xl
           items-start
-          px-3
-          py-4
+          px-3 py-4
           sm:items-center
           sm:px-[var(--space-4)]
           sm:py-[var(--space-6)]
@@ -76,14 +42,15 @@ export function PlayerLayout({
           className="
             w-full
             rounded-[24px]
-            border
-            border-white/70
-            bg-[var(--color-surface)]
+            border border-white/80
+            bg-white
             p-5
-            shadow-[var(--shadow-floating)]
-            backdrop-blur-2xl
+            shadow-[0_12px_40px_rgba(15,23,42,0.07)]
             sm:rounded-[var(--radius-large)]
+            sm:bg-[var(--color-surface)]
             sm:p-[var(--space-5)]
+            sm:shadow-[var(--shadow-floating)]
+            sm:backdrop-blur-xl
           "
         >
           {children}
