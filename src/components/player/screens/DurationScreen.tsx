@@ -1,6 +1,12 @@
 "use client";
 
 import { useState } from "react";
+import {
+  CalendarDays,
+  CircleHelp,
+  Hourglass,
+  Sprout,
+} from "lucide-react";
 
 import { PlayerScreen } from "@/components/player/layout/PlayerScreen";
 import { OptionCard } from "@/components/ui/OptionCard";
@@ -12,25 +18,25 @@ type DurationScreenProps = {
 const options = [
   {
     id: "less-than-one-month",
-    icon: "🌱",
+    icon: Sprout,
     title: "1 aydan az",
     description: "Bu durumu yakın zamanda fark ettim.",
   },
   {
     id: "one-to-six-months",
-    icon: "🗓️",
+    icon: CalendarDays,
     title: "1–6 ay",
     description: "Bir süredir günlük yaşamımı etkiliyor.",
   },
   {
     id: "more-than-six-months",
-    icon: "⏳",
+    icon: Hourglass,
     title: "6 aydan uzun",
     description: "Uzun zamandır devam ediyor.",
   },
   {
     id: "not-sure",
-    icon: "💭",
+    icon: CircleHelp,
     title: "Emin değilim",
     description: "Ne zaman başladığını tam hatırlamıyorum.",
   },
