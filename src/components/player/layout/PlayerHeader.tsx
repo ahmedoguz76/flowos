@@ -1,3 +1,5 @@
+import { flowConfig } from "@/config/flow";
+
 type PlayerHeaderProps = {
   current: number;
   total: number;
@@ -8,21 +10,24 @@ export function PlayerHeader({
   total,
 }: PlayerHeaderProps) {
   const safeTotal = Math.max(total, 1);
+
   const percentage = Math.min(
     100,
     Math.max(0, (current / safeTotal) * 100),
   );
 
+  const clinic = flowConfig.clinic;
+
   return (
     <header className="mb-[var(--space-5)]">
       <div className="flex items-start justify-between gap-4">
-        <div>
-          <p className="text-xs font-semibold uppercase tracking-[0.14em] text-[var(--color-accent)]">
-            Özge Seçkin
+        <div className="min-w-0">
+          <p className="truncate text-xs font-semibold uppercase tracking-[0.14em] text-[var(--color-accent)]">
+            {clinic.name}
           </p>
 
-          <p className="mt-1 text-sm font-medium text-[var(--color-text-secondary)]">
-            Eksik Diş Bilgilendirme Rehberi
+          <p className="mt-1 text-sm font-medium leading-5 text-[var(--color-text-secondary)]">
+            {clinic.guideTitle}
           </p>
         </div>
 
@@ -31,7 +36,7 @@ export function PlayerHeader({
             {current}
             <span className="font-medium text-[var(--color-text-muted)]">
               {" "}
-              / {total}
+              / {safeTotal}
             </span>
           </p>
 
@@ -44,7 +49,7 @@ export function PlayerHeader({
       <div
         className="mt-[var(--space-2)] h-1.5 overflow-hidden rounded-full bg-black/[0.06]"
         role="progressbar"
-        aria-label="Bilgilendirme ilerlemesi"
+        aria-label={`${clinic.guideTitle} ilerlemesi`}
         aria-valuemin={1}
         aria-valuemax={safeTotal}
         aria-valuenow={current}

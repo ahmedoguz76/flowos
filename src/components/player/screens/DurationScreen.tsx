@@ -1,54 +1,25 @@
 "use client";
 
 import { useState } from "react";
-import {
-  CalendarDays,
-  CircleHelp,
-  Hourglass,
-  Sprout,
-} from "lucide-react";
 
 import { PlayerScreen } from "@/components/player/layout/PlayerScreen";
 import { OptionCard } from "@/components/ui/OptionCard";
+import {
+  flowConfig,
+  type DurationId,
+} from "@/config/flow";
 
 type DurationScreenProps = {
-  onSelect: (value: string) => void;
+  onSelect: (value: DurationId) => void;
 };
-
-const options = [
-  {
-    id: "less-than-one-month",
-    icon: Sprout,
-    title: "1 aydan az",
-    description: "Bu durumu yakın zamanda fark ettim.",
-  },
-  {
-    id: "one-to-six-months",
-    icon: CalendarDays,
-    title: "1–6 ay",
-    description: "Bir süredir günlük yaşamımı etkiliyor.",
-  },
-  {
-    id: "more-than-six-months",
-    icon: Hourglass,
-    title: "6 aydan uzun",
-    description: "Uzun zamandır devam ediyor.",
-  },
-  {
-    id: "not-sure",
-    icon: CircleHelp,
-    title: "Emin değilim",
-    description: "Ne zaman başladığını tam hatırlamıyorum.",
-  },
-];
 
 export function DurationScreen({
   onSelect,
 }: DurationScreenProps) {
   const [selectedOption, setSelectedOption] =
-    useState<string | null>(null);
+    useState<DurationId | null>(null);
 
-  function handleSelect(value: string) {
+  function handleSelect(value: DurationId) {
     if (selectedOption) {
       return;
     }
@@ -60,15 +31,17 @@ export function DurationScreen({
     }, 250);
   }
 
+  const screen = flowConfig.duration;
+
   return (
     <PlayerScreen
       screenId="duration"
-      eyebrow="Bir kısa soru daha"
-      title="Bu durum ne zamandır devam ediyor?"
-      description="Size en yakın seçeneği seçebilirsiniz."
+      eyebrow={screen.eyebrow}
+      title={screen.title}
+      description={screen.description}
     >
       <div className="grid gap-[var(--space-2)]">
-        {options.map((option) => (
+        {screen.options.map((option) => (
           <OptionCard
             key={option.id}
             icon={option.icon}

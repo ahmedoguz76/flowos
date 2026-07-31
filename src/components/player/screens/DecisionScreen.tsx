@@ -1,54 +1,25 @@
 "use client";
 
 import { useState } from "react";
-import {
-  MessageCircle,
-  MoreHorizontal,
-  Smile,
-  Utensils,
-} from "lucide-react";
 
 import { PlayerScreen } from "@/components/player/layout/PlayerScreen";
 import { OptionCard } from "@/components/ui/OptionCard";
+import {
+  flowConfig,
+  type ConcernId,
+} from "@/config/flow";
 
 type DecisionScreenProps = {
-  onSelect: (value: string) => void;
+  onSelect: (value: ConcernId) => void;
 };
-
-const options = [
-  {
-    id: "appearance",
-    icon: Smile,
-    title: "Görünüm",
-    description: "Gülümserken kendinizi rahat hissetmiyor musunuz?",
-  },
-  {
-    id: "chewing",
-    icon: Utensils,
-    title: "Çiğneme",
-    description: "Yemek yerken zorlanıyor musunuz?",
-  },
-  {
-    id: "speech",
-    icon: MessageCircle,
-    title: "Konuşma",
-    description: "Konuşurken rahatsızlık hissediyor musunuz?",
-  },
-  {
-    id: "multiple",
-    icon: MoreHorizontal,
-    title: "Birden fazla durum",
-    description: "Birden fazla konu günlük yaşamınızı etkiliyor mu?",
-  },
-];
 
 export function DecisionScreen({
   onSelect,
 }: DecisionScreenProps) {
   const [selectedOption, setSelectedOption] =
-    useState<string | null>(null);
+    useState<ConcernId | null>(null);
 
-  function handleSelect(value: string) {
+  function handleSelect(value: ConcernId) {
     if (selectedOption) {
       return;
     }
@@ -60,15 +31,17 @@ export function DecisionScreen({
     }, 250);
   }
 
+  const screen = flowConfig.decision;
+
   return (
     <PlayerScreen
       screenId="decision"
-      eyebrow="Kısa bir seçim"
-      title="Günlük yaşamda sizi en çok hangisi etkiliyor?"
-      description="Size en yakın seçeneği seçebilirsiniz."
+      eyebrow={screen.eyebrow}
+      title={screen.title}
+      description={screen.description}
     >
       <div className="grid gap-[var(--space-2)]">
-        {options.map((option) => (
+        {screen.options.map((option) => (
           <OptionCard
             key={option.id}
             icon={option.icon}

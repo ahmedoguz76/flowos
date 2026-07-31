@@ -2,6 +2,7 @@
 
 import { useState, type FormEvent } from "react";
 
+import { flowConfig } from "@/config/flow";
 import { PlayerScreen } from "@/components/player/layout/PlayerScreen";
 import { Button } from "@/components/ui/Button";
 import { Checkbox } from "@/components/ui/Checkbox";
@@ -24,6 +25,8 @@ export function ContactScreen({
   const [phone, setPhone] = useState("");
   const [consent, setConsent] = useState(false);
   const [error, setError] = useState("");
+
+  const screen = flowConfig.contact;
 
   function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -55,9 +58,9 @@ export function ContactScreen({
   return (
     <PlayerScreen
       screenId="contact"
-      eyebrow="İsteğe bağlı iletişim"
-      title="Uzman ekiple görüşmek ister misiniz?"
-      description="Bilgilerinizi bırakırsanız klinik ekibi sizinle iletişime geçebilir."
+      eyebrow={screen.eyebrow}
+      title={screen.title}
+      description={screen.description}
     >
       <form
         className="space-y-[var(--space-3)]"
@@ -88,8 +91,8 @@ export function ContactScreen({
           checked={consent}
           onChange={setConsent}
         >
-          KVKK Aydınlatma Metni’ni okudum ve iletişim talebimin
-          işlenmesini kabul ediyorum.
+          KVKK Aydınlatma Metni’ni okudum ve iletişim
+          talebimin işlenmesini kabul ediyorum.
         </Checkbox>
 
         {error && (
@@ -110,13 +113,13 @@ export function ContactScreen({
         )}
 
         <Button type="submit" fullWidth>
-          İletişim Talebi Gönder →
+          {screen.submitLabel} →
         </Button>
       </form>
 
       <p className="mt-[var(--space-2)] text-center text-xs leading-5 text-[var(--color-text-muted)]">
-        Bu form tanı veya tedavi sağlamaz. Hukuki metinler gerçek kullanımdan
-        önce uzman tarafından doğrulanmalıdır.
+        Bu form tanı veya tedavi sağlamaz. Hukuki metinler gerçek
+        kullanımdan önce uzman tarafından doğrulanmalıdır.
       </p>
     </PlayerScreen>
   );

@@ -14,17 +14,27 @@ import { WelcomeScreen } from "@/components/player/screens/WelcomeScreen";
 
 import { implantFlow } from "@/features/flow/implantFlow";
 
-import {
-  initialJourneyAnswers,
-  type JourneyAnswers,
-} from "@/types/journey";
+import type {
+  ConcernId,
+  DurationId,
+} from "@/config/flow";
 
 import type { FlowScreenId } from "@/types/flow-engine";
+
+type JourneyData = {
+  concern: ConcernId | null;
+  duration: DurationId | null;
+};
 
 type ContactData = {
   fullName: string;
   phone: string;
   consent: boolean;
+};
+
+const initialJourneyData: JourneyData = {
+  concern: null,
+  duration: null,
 };
 
 const initialContactData: ContactData = {
@@ -34,20 +44,19 @@ const initialContactData: ContactData = {
 };
 
 export function FlowPlayer() {
-  const [currentScreen, setCurrentScreen] = useState<FlowScreenId>(
-    implantFlow.startScreen,
-  );
+  const [currentScreen, setCurrentScreen] =
+    useState<FlowScreenId>(implantFlow.startScreen);
 
-  const [screenHistory, setScreenHistory] = useState<FlowScreenId[]>([]);
+  const [screenHistory, setScreenHistory] =
+    useState<FlowScreenId[]>([]);
 
-  const [journey, setJourney] = useState<JourneyAnswers>(
-    initialJourneyAnswers,
-  );
+  const [journey, setJourney] =
+    useState<JourneyData>(initialJourneyData);
 
   const [contact, setContact] =
     useState<ContactData>(initialContactData);
 
-  function updateJourney(updates: Partial<JourneyAnswers>) {
+  function updateJourney(updates: Partial<JourneyData>) {
     setJourney((currentJourney) => ({
       ...currentJourney,
       ...updates,
@@ -98,14 +107,18 @@ export function FlowPlayer() {
   function restartJourney() {
     setCurrentScreen(implantFlow.startScreen);
     setScreenHistory([]);
-    setJourney(initialJourneyAnswers);
+    setJourney(initialJourneyData);
     setContact(initialContactData);
   }
 
   function renderCurrentScreen() {
     switch (currentScreen) {
       case "welcome":
-        return <WelcomeScreen onStart={goToNextScreen} />;
+        return (
+          <WelcomeScreen
+            onStart={goToNextScreen}
+          />
+        );
 
       case "decision":
         return (
@@ -123,7 +136,9 @@ export function FlowPlayer() {
       case "story":
         return (
           <StoryScreen
-            selectedAnswer={journey.concern}
+            selectedAnswer={
+              journey.concern ?? "multiple"
+            }
             onContinue={goToNextScreen}
           />
         );
@@ -144,8 +159,6 @@ export function FlowPlayer() {
       case "information":
         return (
           <InformationScreen
-            concern={journey.concern}
-            duration={journey.duration}
             onContinue={goToNextScreen}
           />
         );
@@ -153,7 +166,12 @@ export function FlowPlayer() {
       case "recommendation":
         return (
           <RecommendationScreen
-            concern={journey.concern}
+            concern={
+              journey.concern ?? "multiple"
+            }
+            duration={
+              journey.duration ?? "not-sure"
+            }
             onContinue={goToNextScreen}
           />
         );
@@ -164,8 +182,15 @@ export function FlowPlayer() {
             onSubmit={(data) => {
               setContact(data);
 
-              console.log("Journey cevapları:", journey);
-              console.log("İletişim bilgileri:", data);
+              console.log(
+                "Journey cevapları:",
+                journey,
+              );
+
+              console.log(
+                "İletişim bilgileri:",
+                data,
+              );
 
               goToNextScreen();
             }}
@@ -194,14 +219,19 @@ export function FlowPlayer() {
             onClick={goBack}
             className="
               fixed left-4 top-4 z-50
-              rounded-full border border-[var(--border)]
-              bg-white/85 px-4 py-3
-              text-sm font-semibold text-[var(--text-primary)]
-              shadow-sm backdrop-blur-lg
+              rounded-full
+              border border-[var(--color-border)]
+              bg-white/90
+              px-4 py-3
+              text-sm font-semibold
+              text-[var(--color-text-primary)]
+              shadow-sm
               transition duration-200
-              hover:-translate-y-0.5 hover:shadow-md
+              hover:-translate-y-0.5
+              hover:shadow-md
               focus-visible:outline-none
-              focus-visible:ring-4 focus-visible:ring-black/10
+              focus-visible:ring-4
+              focus-visible:ring-black/10
               sm:left-8 sm:top-8
             "
           >

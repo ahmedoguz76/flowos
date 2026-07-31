@@ -1,3 +1,4 @@
+import { flowConfig } from "@/config/flow";
 import { PlayerScreen } from "@/components/player/layout/PlayerScreen";
 import { Button } from "@/components/ui/Button";
 import { Card } from "@/components/ui/Card";
@@ -12,13 +13,14 @@ export function ThankYouScreen({
   onRestart,
 }: ThankYouScreenProps) {
   const firstName = fullName.trim().split(" ")[0] || "Teşekkürler";
+  const screen = flowConfig.thankYou;
 
   return (
     <PlayerScreen
       screenId="thank-you"
-      eyebrow="Yolculuk tamamlandı"
+      eyebrow={screen.eyebrow}
       title={`Teşekkürler, ${firstName}.`}
-      description="İletişim talebiniz başarıyla alındı."
+      description={screen.description}
     >
       <Card
         variant="accent"
@@ -29,9 +31,9 @@ export function ThankYouScreen({
         </p>
 
         <p className="mt-[var(--space-1)] leading-7 text-[var(--color-text-secondary)]">
-          Klinik ekibi uygun olduğunda sizinle iletişime geçebilir. Verdiğiniz
-          yanıtlar yalnızca bu bilgilendirme deneyimi kapsamında
-          değerlendirilmiştir ve tıbbi tanı niteliğinde değildir.
+          Klinik ekibi uygun olduğunda sizinle iletişime geçebilir.
+          Verdiğiniz yanıtlar yalnızca bu bilgilendirme deneyimi
+          kapsamında değerlendirilmiştir ve tıbbi tanı niteliğinde değildir.
         </p>
       </Card>
 
@@ -41,7 +43,7 @@ export function ThankYouScreen({
           fullWidth
           onClick={onRestart}
         >
-          Baştan Başla
+          {screen.restartLabel}
         </Button>
       </div>
     </PlayerScreen>

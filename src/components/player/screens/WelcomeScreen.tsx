@@ -1,5 +1,10 @@
-import { ShieldCheck, Sparkles, TimerReset } from "lucide-react";
+import {
+  ShieldCheck,
+  Sparkles,
+  TimerReset,
+} from "lucide-react";
 
+import { flowConfig } from "@/config/flow";
 import { PlayerScreen } from "@/components/player/layout/PlayerScreen";
 import { Button } from "@/components/ui/Button";
 import { Card } from "@/components/ui/Card";
@@ -29,12 +34,14 @@ const trustItems = [
 export function WelcomeScreen({
   onStart,
 }: WelcomeScreenProps) {
+  const screen = flowConfig.welcome;
+
   return (
     <PlayerScreen
       screenId="welcome"
-      eyebrow="Kişiselleştirilmiş bilgilendirme"
-      title="Eksik dişiniz günlük yaşamınızı nasıl etkiliyor?"
-      description="Birkaç kısa seçimle yalnızca sizi ilgilendirebilecek içeriklere ulaşın."
+      eyebrow={screen.eyebrow}
+      title={screen.title}
+      description={screen.description}
     >
       <div className="grid gap-[var(--space-2)]">
         {trustItems.map((item) => {
@@ -44,17 +51,26 @@ export function WelcomeScreen({
             <Card
               key={item.title}
               variant="glass"
-              className="flex items-center gap-[var(--space-2)] p-[var(--space-2)]"
+              className="
+                flex items-center
+                gap-[var(--space-2)]
+                p-[var(--space-2)]
+              "
             >
               <div
                 className="
-                  flex h-11 w-11 shrink-0 items-center justify-center
+                  flex h-11 w-11 shrink-0
+                  items-center justify-center
                   rounded-[var(--radius-small)]
                   bg-[var(--color-accent-soft)]
                   text-[var(--color-accent)]
                 "
               >
-                <Icon size={20} strokeWidth={2.2} />
+                <Icon
+                  size={20}
+                  strokeWidth={2.2}
+                  aria-hidden="true"
+                />
               </div>
 
               <div>
@@ -77,7 +93,7 @@ export function WelcomeScreen({
           fullWidth
           onClick={onStart}
         >
-          Kendime Uygun Bilgileri Gör
+          {screen.cta}
           <span aria-hidden="true">→</span>
         </Button>
       </div>

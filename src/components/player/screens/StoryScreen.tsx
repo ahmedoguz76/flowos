@@ -1,56 +1,14 @@
 import { PlayerScreen } from "@/components/player/layout/PlayerScreen";
 import { Button } from "@/components/ui/Button";
 import { Card } from "@/components/ui/Card";
+import {
+  flowConfig,
+  type ConcernId,
+} from "@/config/flow";
 
 type StoryScreenProps = {
-  selectedAnswer: string;
+  selectedAnswer: ConcernId;
   onContinue: () => void;
-};
-
-const storyByAnswer: Record<
-  string,
-  {
-    eyebrow: string;
-    title: string;
-    description: string;
-    insight: string;
-  }
-> = {
-  appearance: {
-    eyebrow: "Görünüm",
-    title: "Bu konuda yalnız değilsiniz.",
-    description:
-      "Birçok kişi eksik dişi nedeniyle gülümserken kendini daha çekingen hissedebiliyor.",
-    insight:
-      "Bu durumun günlük yaşam üzerindeki etkisi kişiden kişiye değişebilir.",
-  },
-
-  chewing: {
-    eyebrow: "Çiğneme",
-    title: "Günlük konfor zamanla değişebilir.",
-    description:
-      "Bazı kişiler eksik diş nedeniyle çiğneme alışkanlıklarının değiştiğini fark edebiliyor.",
-    insight:
-      "Durumun doğru değerlendirilebilmesi için klinik muayene gerekir.",
-  },
-
-  speech: {
-    eyebrow: "Konuşma",
-    title: "Küçük değişiklikler fark edilebilir.",
-    description:
-      "Eksik dişin bulunduğu bölgeye göre bazı kişiler konuşurken farklılık hissedebilir.",
-    insight:
-      "Her durum kişinin ağız yapısına göre ayrı değerlendirilmelidir.",
-  },
-
-  multiple: {
-    eyebrow: "Birden fazla durum",
-    title: "Etkiler tek bir alanla sınırlı olmayabilir.",
-    description:
-      "Görünüm, çiğneme ve günlük konfor bazı kişilerde birlikte etkilenebilir.",
-    insight:
-      "Uygun seçenekler ancak profesyonel değerlendirme sonrasında belirlenebilir.",
-  },
 };
 
 export function StoryScreen({
@@ -58,7 +16,8 @@ export function StoryScreen({
   onContinue,
 }: StoryScreenProps) {
   const story =
-    storyByAnswer[selectedAnswer] ?? storyByAnswer.multiple;
+    flowConfig.stories[selectedAnswer] ??
+    flowConfig.stories.multiple;
 
   return (
     <PlayerScreen
