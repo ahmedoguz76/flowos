@@ -1,6 +1,12 @@
 "use client";
 
 import { useState } from "react";
+import {
+  MessageCircle,
+  MoreHorizontal,
+  Smile,
+  Utensils,
+} from "lucide-react";
 
 import { PlayerScreen } from "@/components/player/layout/PlayerScreen";
 import { OptionCard } from "@/components/ui/OptionCard";
@@ -12,25 +18,25 @@ type DecisionScreenProps = {
 const options = [
   {
     id: "appearance",
-    icon: "🙂",
+    icon: Smile,
     title: "Görünüm",
     description: "Gülümserken kendinizi rahat hissetmiyor musunuz?",
   },
   {
     id: "chewing",
-    icon: "🍽️",
+    icon: Utensils,
     title: "Çiğneme",
     description: "Yemek yerken zorlanıyor musunuz?",
   },
   {
     id: "speech",
-    icon: "💬",
+    icon: MessageCircle,
     title: "Konuşma",
     description: "Konuşurken rahatsızlık hissediyor musunuz?",
   },
   {
     id: "multiple",
-    icon: "✨",
+    icon: MoreHorizontal,
     title: "Birden fazla durum",
     description: "Birden fazla konu günlük yaşamınızı etkiliyor mu?",
   },
@@ -43,7 +49,9 @@ export function DecisionScreen({
     useState<string | null>(null);
 
   function handleSelect(value: string) {
-    if (selectedOption) return;
+    if (selectedOption) {
+      return;
+    }
 
     setSelectedOption(value);
 

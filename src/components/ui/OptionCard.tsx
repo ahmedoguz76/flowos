@@ -1,7 +1,8 @@
+import type { LucideIcon } from "lucide-react";
 import { Check, ChevronRight } from "lucide-react";
 
 type OptionCardProps = {
-  icon?: string;
+  icon?: LucideIcon;
   title: string;
   description?: string;
   selected?: boolean;
@@ -10,7 +11,7 @@ type OptionCardProps = {
 };
 
 export function OptionCard({
-  icon,
+  icon: Icon,
   title,
   description,
   selected = false,
@@ -24,66 +25,48 @@ export function OptionCard({
       disabled={disabled}
       aria-pressed={selected}
       className={[
-        "group relative w-full overflow-hidden rounded-[28px]",
-        "border",
-        "px-6 py-5",
-        "text-left",
+        "group relative w-full overflow-hidden",
+        "rounded-[var(--radius-medium)] border",
+        "px-5 py-5 text-left",
         "transition-all duration-300",
         "ease-[var(--ease-premium)]",
         "focus-visible:outline-none",
         "focus-visible:ring-4",
         "focus-visible:ring-[rgba(24,58,52,0.15)]",
-
         selected
-          ? "border-[var(--accent)] bg-[var(--accent)] text-white shadow-[0_20px_60px_rgba(24,58,52,0.28)]"
-          : "border-[var(--border)] bg-white/75 backdrop-blur-xl hover:-translate-y-1 hover:border-[var(--border-strong)] hover:shadow-[0_18px_45px_rgba(18,22,19,0.12)]",
-
+          ? "border-[var(--color-accent)] bg-[var(--color-accent)] text-white shadow-[var(--shadow-accent)]"
+          : "border-[var(--color-border)] bg-white/80 text-[var(--color-text-primary)] hover:-translate-y-0.5 hover:border-[var(--color-border-strong)] hover:shadow-[var(--shadow-small)]",
         disabled ? "cursor-not-allowed" : "cursor-pointer",
       ].join(" ")}
     >
-      <div className="flex items-center gap-5">
-        {icon && (
+      <div className="flex items-center gap-4">
+        {Icon && (
           <div
             className={[
-              "flex h-14 w-14 shrink-0 items-center justify-center",
-              "rounded-2xl",
-              "text-2xl",
+              "flex h-12 w-12 shrink-0 items-center justify-center",
+              "rounded-[var(--radius-small)]",
               "transition-all duration-300",
-
               selected
-                ? "bg-white/15"
-                : "bg-[var(--surface-soft)]",
+                ? "bg-white/15 text-white"
+                : "bg-[var(--color-accent-soft)] text-[var(--color-accent)]",
             ].join(" ")}
           >
-            {icon}
+            <Icon size={21} strokeWidth={2.2} />
           </div>
         )}
 
         <div className="min-w-0 flex-1">
-          <h3
-            className={[
-              "text-lg",
-              "font-semibold",
-              "tracking-[-0.03em]",
-
-              selected
-                ? "text-white"
-                : "text-[var(--text-primary)]",
-            ].join(" ")}
-          >
+          <h3 className="text-base font-semibold tracking-[-0.025em]">
             {title}
           </h3>
 
           {description && (
             <p
               className={[
-                "mt-2",
-                "text-sm",
-                "leading-6",
-
+                "mt-1.5 text-sm leading-6",
                 selected
                   ? "text-white/80"
-                  : "text-[var(--text-secondary)]",
+                  : "text-[var(--color-text-secondary)]",
               ].join(" ")}
             >
               {description}
@@ -93,15 +76,15 @@ export function OptionCard({
 
         <div
           className={[
-            "flex h-11 w-11 items-center justify-center rounded-full transition-all duration-300",
-
+            "flex h-10 w-10 shrink-0 items-center justify-center rounded-full",
+            "transition-all duration-300",
             selected
-              ? "bg-white text-[var(--accent)]"
-              : "bg-black/5 text-[var(--text-muted)] group-hover:translate-x-1",
+              ? "bg-white text-[var(--color-accent)]"
+              : "bg-black/[0.04] text-[var(--color-text-muted)] group-hover:translate-x-0.5",
           ].join(" ")}
         >
           {selected ? (
-            <Check size={18} strokeWidth={2.5} />
+            <Check size={17} strokeWidth={2.6} />
           ) : (
             <ChevronRight size={18} />
           )}
